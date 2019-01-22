@@ -9,7 +9,7 @@
     @keypress.enter.tab.stop.self="addPointerElement($event)"
     @keyup.esc="deactivate()"
     >
-      <div class="multiselect">
+      <div class="multiselect" ref="root">
         <slot name="caret" :toggle="toggle">
           <div @mousedown.prevent.stop="toggle()" class="multiselect__select"></div>
         </slot>
@@ -84,7 +84,7 @@
       </div>
       </div>
       <transition name="multiselect">
-        <div class="multiselect__popper">
+        <div class="multiselect__dropdown-wrapper" :style="{ minWidth: dropdownWidth + 'px'}">
           <div
             class="multiselect__content-wrapper"
             v-show="isOpen"
@@ -155,6 +155,11 @@ import pointerMixin from './pointerMixin'
 export default {
   name: 'vue-multiselect',
   mixins: [multiselectMixin, pointerMixin],
+  data () {
+    return {
+      dropdownWidth: 10
+    }
+  },
   props: {
     /**
      * name attribute to match optional label element
@@ -291,6 +296,12 @@ export default {
     tabindex: {
       type: Number,
       default: 0
+    }
+  },
+  watch: {
+    isOpen () {
+      this.dropdownWidth = this.$refs.root.clientWidth
+      console.log('ddw', this.dropdownWidth)
     }
   },
   computed: {
@@ -632,13 +643,9 @@ fieldset[disabled] .multiselect {
   display: none;
 }
 
-.multiselect__popper {
+.multiselect__dropdown-wrapper {
   position:absolute;
   z-index:10;
-  right:0;
-  left:0;
-  width:auto;
-  padding:0 20px;
 }
 
 .multiselect__content-wrapper {
