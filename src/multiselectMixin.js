@@ -67,7 +67,10 @@ export default {
       search: '',
       isOpen: false,
       preferredOpenDirection: 'below',
-      optimizedHeight: this.maxHeight
+      optimizedHeight: this.maxHeight,
+      dropdownWidth: this.clientWidth,
+      dropdownBottom: null,
+      dropdownPositionStyle: {}
     }
   },
   props: {
@@ -698,13 +701,23 @@ export default {
       const spaceBelow = window.innerHeight - this.$el.getBoundingClientRect().bottom
       const hasEnoughSpaceBelow = spaceBelow > this.maxHeight
 
+      this.dropdownWidth = this.$el.clientWidth
+
       if (hasEnoughSpaceBelow || spaceBelow > spaceAbove || this.openDirection === 'below' || this.openDirection === 'bottom') {
         this.preferredOpenDirection = 'below'
         this.optimizedHeight = Math.min(spaceBelow - 40, this.maxHeight)
+        this.dropdownBottom = null
+        this.dropdownPositionStyle = {}
       } else {
         this.preferredOpenDirection = 'above'
         this.optimizedHeight = Math.min(spaceAbove - 40, this.maxHeight)
+        // let scale = window.devicePixelRatio
+        this.dropdownBottom = (window.innerHeight - this.$el.getBoundingClientRect().top) + 'px'
+        // this.dropdownBottom = this.$refs.root.getBoundingClientRect().top + 'px'
+        this.dropdownPositionStyle = { bottom: this.dropdownBottom, position: 'Fixed' }
       }
+
+      console.log('pd', this.preferredOpenDirection, this.dropdownBottom, window.innerHeight, this.$el.getBoundingClientRect().top)
     }
   }
 }

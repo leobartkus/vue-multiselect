@@ -17,6 +17,49 @@ div
         img.badge__img(:src="props.option.img", :alt="props.option.name")
       span(slot="noResult").
         Badge not found. Suggest a badge <a class="typo__link" href="https://github.com/monterail/vue-multiselect/issues" target="_blank">here</a>.
+
+
+  div.flexcontainer(style="padding:0px;")
+    div.flexitem
+      multiselect(
+        v-model="value",
+        label="name",
+        track-by="name",
+        placeholder="Pick badges",
+        :options="badges",
+        :multiple="true",
+        :show-labels="false",
+        :limit="3",
+        @tag="onTagging"
+      )
+        template(slot="option", slot-scope="props")
+          span.badge__name {{ props.option.name }}
+          img.badge__img(:src="props.option.img", :alt="props.option.name")
+        span(slot="noResult").
+          Badge not found. Suggest a badge <a class="typo__link" href="https://github.com/monterail/vue-multiselect/issues" target="_blank">here</a>.
+    div.flexitem FOO
+    div.flexitem BOOP
+    div.flexitem
+      multiselect(
+        v-model="value",
+        label="name",
+        track-by="name",
+        placeholder="Pick badges",
+        :options="badges",
+        :multiple="true",
+        :show-labels="false",
+        :limit="3",
+        @tag="onTagging"
+      )
+        template(slot="option", slot-scope="props")
+          span.badge__name {{ props.option.name }}
+          img.badge__img(:src="props.option.img", :alt="props.option.name")
+        span(slot="noResult").
+          Badge not found. Suggest a badge <a class="typo__link" href="https://github.com/monterail/vue-multiselect/issues" target="_blank">here</a>.
+  
+    div.flexitem BAR
+    div.flexitem BAZ
+
 </template>
 
 <script>
@@ -57,4 +100,15 @@ export default {
     display: inline-block
     margin-left: 5px
     float: left
+  
+  .flexitem
+    display: flex 1 1 auto;
+    flex: 50%;
+    margin-bottom: 8px;
+
+  .flexcontainer
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+
 </style>

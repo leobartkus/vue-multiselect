@@ -1,4 +1,5 @@
 <template>
+<div >
   <div
     :tabindex="searchable ? -1 : tabindex"
     :class="{ 'multiselect--active': isOpen, 'multiselect--disabled': disabled, 'multiselect--above': isAbove }"
@@ -84,14 +85,14 @@
       </div>
       </div>
       <transition name="multiselect">
-        <div class="multiselect__dropdown-wrapper" :style="{ minWidth: dropdownWidth + 'px'}">
+        <div class="multiselect__dropdown-wrapper" :style="dropdownPositionStyle">
           <div
             class="multiselect__content-wrapper"
             v-show="isOpen"
             @focus="activate"
             tabindex="-1"
             @mousedown.prevent
-            :style="{ maxHeight: optimizedHeight + 'px' }"
+            :style="{ maxHeight: optimizedHeight + 'px', minWidth: dropdownWidth + 'px' }"
             ref="list">
             <ul class="multiselect__content" :style="contentStyle">
               <slot name="beforeList"></slot>
@@ -146,19 +147,19 @@
         </div>
       </transition>
   </div>
+  </div>
 </template>
 
 <script>
 import multiselectMixin from './multiselectMixin'
 import pointerMixin from './pointerMixin'
+import Popper from 'vue-popper'
 
 export default {
   name: 'vue-multiselect',
   mixins: [multiselectMixin, pointerMixin],
-  data () {
-    return {
-      dropdownWidth: 10
-    }
+  components: {
+    Popper
   },
   props: {
     /**
@@ -296,12 +297,6 @@ export default {
     tabindex: {
       type: Number,
       default: 0
-    }
-  },
-  watch: {
-    isOpen () {
-      this.dropdownWidth = this.$refs.root.clientWidth
-      console.log('ddw', this.dropdownWidth)
     }
   },
   computed: {
@@ -649,7 +644,6 @@ fieldset[disabled] .multiselect {
 }
 
 .multiselect__content-wrapper {
-  display: block;
   background: #fff;
   width: 100%;
   max-height: 240px;
@@ -671,7 +665,7 @@ fieldset[disabled] .multiselect {
   vertical-align: top;
 }
 
-.multiselect--above .multiselect__content-wrapper {
+.multiselect--above .multiselect__dropdown-wrapper {
   bottom: 100%;
   border-bottom-left-radius: 0;
   border-bottom-right-radius: 0;
