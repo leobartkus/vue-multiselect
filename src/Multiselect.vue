@@ -46,6 +46,7 @@
           </slot>
         </transition>
         <input
+          :size="size"
           ref="search"
           v-if="searchable"
           :name="name"
@@ -162,6 +163,12 @@ export default {
     Popper
   },
   props: {
+
+    size: {
+      type: String,
+      default: '10'
+    },
+
     /**
      * name attribute to match optional label element
      * @default ''
@@ -373,6 +380,8 @@ export default {
 </script>
 
 <style>
+
+
 fieldset[disabled] .multiselect {
   pointer-events: none;
 }

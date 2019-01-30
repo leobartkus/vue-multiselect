@@ -712,8 +712,10 @@ export default {
         this.preferredOpenDirection = 'above'
         this.optimizedHeight = Math.min(spaceAbove - 40, this.maxHeight)
         // let scale = window.devicePixelRatio
+        // let windowHeight = document.documentElement.clientHeight
+        // this.dropdownBottom = ((windowHeight - this.$el.getBoundingClientRect().top)) + 'px'
         this.dropdownBottom = (window.innerHeight - this.$el.getBoundingClientRect().top) + 'px'
-        // this.dropdownBottom = this.$refs.root.getBoundingClientRect().top + 'px'
+        // this.dropdownBottom = this.$el.getBoundingClientRect().top + 'px'
         this.dropdownPositionStyle = { bottom: this.dropdownBottom, position: 'Fixed' }
       }
 
